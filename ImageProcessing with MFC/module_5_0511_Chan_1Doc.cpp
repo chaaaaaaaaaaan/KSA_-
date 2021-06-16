@@ -1975,7 +1975,7 @@ void Cmodule50511Chan1Doc::OnFrameOr()
 
 void Cmodule50511Chan1Doc::OnFrameComb()
 {
-	/*
+
 	CFile File;
 	CFileDialog OpenDlg(TRUE);
 	int i;
@@ -2021,94 +2021,7 @@ void Cmodule50511Chan1Doc::OnFrameComb()
 			= (m_InputImage[i] & masktemp[i]) | (temp[i] & maskvalue);
 		// 입력 영상과 마스크 영상은 AND 연산을 하고, 합성할 영상은
 		// (255-마스크 영상) 값과 AND 연산을 실행한 후 두 값을 더한다.
-	}*/ 
-	//################################################################################
-
-	CFile File;
-	CFileDialog OpenDlg(TRUE);
-	int i;
-
-
-	m_Re_height = m_height;
-	m_Re_width = m_width;
-	m_Re_size = m_Re_height * m_Re_width;
-
-	unsigned char* temp = nullptr;
-	unsigned char* masktemp = nullptr;;
-	unsigned char maskvalue;
-
-	m_OutputImage = new unsigned char[m_Re_size];
-
-	AfxMessageBox(L"합성할 영상을 입력하시오");
-
-	if (OpenDlg.DoModal() == IDOK) { // 합성할 영상을 입력
-		File.Open(OpenDlg.GetPathName(), CFile::modeRead);
-		temp = new unsigned char[m_size];
-		File.Read(temp, m_size);
-
-		if ((unsigned)m_width * m_height != File.GetLength()) {
-			AfxMessageBox(L"Image size not matched");
-			// 영상의 크기가 같을 때
-			return;
-		}
-		File.Close();
 	}
-	// 입력 영상, 합성할 영상, 마스크 영상의 크기가 같아야 한다.
-	AfxMessageBox(L"입력 영상의 마스크 영상을 입력하시오");
-	if (OpenDlg.DoModal() == IDOK) { // 입력 영상의 마스크 영상
-		File.Open(OpenDlg.GetPathName(), CFile::modeRead);
-		masktemp = new unsigned char[m_size];
-		File.Read(masktemp, m_size);
-		File.Close();
-
-		/*
-		for (int i = 0; i < m_size; i++) {
-		   printf("%d", masktemp[i]);
-		}
-		*/
-
-		//BITMAPHEADER originalHeader;
-		//BITMAPHEADER outputHeader;
-
-		//BITMAPHEADER* original = &originalHeader;
-
-		BITMAPFILEHEADER hf;
-		BITMAPINFOHEADER hInfo;
-
-		RGBQUAD hRGB[256];
-		unsigned char InputImg[15][15];
-		FILE* fp;
-		int* imgSize;
-		//int width = 0;
-		//int height = 0;
-
-		CString FileName = OpenDlg.GetPathName();
-		std::string str = CT2CA(FileName);
-		const char* path = str.c_str();
-
-		masktemp = new unsigned char[m_size];
-
-		fp = fopen(path, "rb");
-		if (fp == NULL) {
-			printf("파일이 없음");
-			return;
-		}
-
-		fread(&hf, sizeof(BITMAPFILEHEADER), 1, fp);
-		fread(&hInfo, sizeof(BITMAPINFOHEADER), 1, fp);
-		fread(&hRGB, sizeof(RGBQUAD), 256, fp);
-		fread(masktemp, m_size, 1, fp);
-		fclose(fp);
-
-		/*
-		for (int i = 0; i < m_size; i++) {
-		   printf("%d", masktemp[i]);
-		}
-		*/
-
-
-	}
-
 
 }
 
